@@ -1,0 +1,27 @@
+{
+  "posts": [
+    {
+      "title": "namenn",
+      "body": "take note",
+      "userId": 1,
+      "id": 1
+    },
+    {
+      "title": "trouse",
+      "body": "take note",
+      "userId": 2,
+      "id": 2
+    },
+    {
+      "title": "cap",
+      "body": "take note",
+      "userId": 3,
+      "id": 3
+    },
+    {
+      "title": "makepost",
+      "body": "all them boys",
+      "id": 4
+    }
+  ]
+}
