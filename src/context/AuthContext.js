@@ -1,37 +1,77 @@
-import { createContext, useContext, useEffect,useState} from "react";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import {auth} from '../firebase';
-const UserContext = createContext()
+import { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
 
-export const AuthContextProvider = ({children}) =>{
-    const [user, setUser] = useState({});
-   
-    const logout = ()=>{
-        return signOut;
-    }
-    const signin = (email, password) =>{
-        signInWithEmailAndPassword(auth ,email, password);
-    }
-    const creatUser = ( email, password) => {
-        createUserWithEmailAndPassword(auth ,email, password);
-         
-   }
-   useEffect(() =>{
-    const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
-        setUser(currentUser);
+const UserContext = createContext();
+
+export const AuthContextProvider = ({ children }) => {
+  const [create, setCreate] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [post, setPost] = useState([]);
+  const [name, setName] = useState("");
+  const [descript, setDescript] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const open = () => setEdit(true);
+  const close = () => setEdit(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      getUser();
+    }, 2000);
+  }, []);
+  const getUser = () => {
+    const baseURL = `https://test-api.sytbuilder.com`;
+    const token = localStorage.getItem("token");
+
+    axios
+      .get(`${baseURL}/items?page=1&count=10`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setPost(res.data.items);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const selectItem = (uuid) => {
+    let newEditItem = post.find((posts) => {
+      return posts.uuid === uuid;
     });
-    return () =>{
-       unsubscribe(); 
-    }
-})
-    return(
-        <UserContext.Provider  value={{creatUser, user,logout,signin}}>
-            {children}
-        </UserContext.Provider>
-    )
-        
-}
+    setName(newEditItem.name);
+    setDescript(newEditItem.description);
+    setUserId(newEditItem.uuid);
+  };
+
+  return (
+    <UserContext.Provider
+      value={{
+        create,
+        setCreate,
+        edit,
+        close,
+        open,
+        post,
+        userId,
+        setPost,
+        setName,
+        name,
+        setDescript,
+        descript,
+        selectItem,
+        getUser,
+        loading,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
+};
 
 export const UserAuth = () => {
-    return useContext(UserContext)
-}
+  return useContext(UserContext);
+};

@@ -1,6 +1,6 @@
- import { createGlobalStyle } from "styled-components"
+import { createGlobalStyle } from "styled-components";
 
- const GlobalStyled = createGlobalStyle `
+const GlobalStyled = createGlobalStyle`
    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap');
 
  body{
@@ -19,6 +19,7 @@
     flex: none;
     order: 0;
     flex-grow: 0;
+    cursor:pointer;
   }
   
 input{
@@ -33,7 +34,7 @@ input{
 
     width: 320px;
     height: 40px;
-
+    padding:10px;
     background: #FFFFFF;
     border: 1px solid #E1E1E1;
     border-radius: 4px;
@@ -45,8 +46,44 @@ input{
 }
 ::placeholder{
     color:#CACACA;
+    
+}
+input[type='password']{
+  font-family:verdana;
+  letter-spacing:0.125em;
+}
+input[type='text']{
+  font-family:verdana;
+  letter-spacing:0.125em;
+}
+input[type='email']{
+  font-family:verdana;
+  letter-spacing:0.125em;
 }
 
+button:disabled{
+  position: absolute;
+  width: 656px;
+  height: 48px;
+  left: 32px;
+   
+  border: none;
+  background: #B7BCC3
+ 
+  border-radius: 4px;
+}
+ 
+button:enabled{
+  position: absolute;
+  width: 656px;
+  height: 48px;
+  left: 32px;
+  
+  border: none;
+  
+  background: #555658;
+  border-radius: 4px;
+}
  
 textarea{
     box-sizing: border-box;
@@ -66,6 +103,10 @@ textarea{
     text-decoration:none;
     color:blue;
   }
-   
-`
-export default GlobalStyled
+   ul{
+    position: absolute;
+    
+    top: 65%;
+   }
+`;
+export default GlobalStyled;
